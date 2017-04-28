@@ -36,13 +36,13 @@ output_file = 'weeks_in_year.csv'
 monday_weekday_index = 0
 friday_weekday_index = 4
 
-help_msg = "dates.py -o <output_file> -y <year> -f <date_format>"
+help_msg = "dates.py -o <output_file> -y <year>"
 
 
 def main(argv):
 
 	try:
-		opts, args = getopt.getopt(argv, "ho:s:y:f:", ["output_file=", "year=", "date_format="])
+		opts, args = getopt.getopt(argv, "ho:s:y:", ["output_file=", "year="])
 	except getopt.GetoptError:
 		print(help_msg)
 		sys.exit(2)
@@ -57,9 +57,6 @@ def main(argv):
 		elif opt in ("-y", "--year"):
 			global year_to_build 
 			year_to_build = arg
-		elif opt in ("-f", "--date_format"):
-			global date_format 
-			date_format = arg
 
 	get_all_weeks_in_year(year_to_build, output_file)
 
