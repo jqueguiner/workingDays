@@ -36,13 +36,13 @@ output_file = 'weeks_in_year.csv'
 monday_weekday_index = 0
 friday_weekday_index = 4
 
-help_msg = "dates.py -o <output_file> -y <year> -f <date_format>"
+help_msg = "dates.py -o <output_file> -y <year>"
 
 
 def main(argv):
 
 	try:
-		opts, args = getopt.getopt(argv, "ho:s:y:f:", ["output_file=", "year=", "date_format="])
+		opts, args = getopt.getopt(argv, "ho:s:y:f:", ["output_file=", "year="])
 	except getopt.GetoptError:
 		print(help_msg)
 		sys.exit(2)
@@ -57,9 +57,6 @@ def main(argv):
 		elif opt in ("-y", "--year"):
 			global year_to_build 
 			year_to_build = arg
-		elif opt in ("-f", "--date_format"):
-			global date_format 
-			date_format = arg
 
 	get_all_weeks_in_year(year_to_build, output_file)
 
@@ -112,13 +109,15 @@ def get_all_weeks_in_year(year_to_build, output_file):
 	while current_date < end_dt:
 
 		dates_in_week = get_all_days_in_week(current_date)
+		
 		youngest_date = get_youngest_date(dates_in_week)
+
 		current_date = youngest_date + timedelta(days=1)
 
 		weeks_boundaries = get_week_boundaries(dates_in_week)
-
-		for key, week in weeks_boundaries.iteritems():
-			if week.has_key("Start") and week.has_key("End"):
+		
+		for key, week in weeks_boundaries.items():
+			if ('Start' in week) and ('End' in week):
 				week_start_date = week['Start']
 				week_end_date = week['End']
 				weeks_to_write.append([week_start_date.year, months[week_start_date.month], week_start_date.isocalendar()[1], week_start_date.strftime(date_format), week_end_date.strftime(date_format), week_start_date.strftime(date_format_name_output) + "_" +week_end_date.strftime(date_format_name_output)])
