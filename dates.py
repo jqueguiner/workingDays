@@ -7,42 +7,28 @@ import getopt
 from datetime import datetime, timedelta
 import calendar
 
-now = datetime.now()
-
-year_to_build = now.year
-
-date_format = '%d/%m/%Y'
-date_format_name_output = '%Y-%m-%d'
-
-headers =['year', 'month', 'week_nbr', 'start_date', 'end_date', 'name']
-
-months = {
-			1 : 'Janvier',
-			2 : 'Février',
-			3 : 'Mars',
-			4 : 'Avril',
-			5 : 'Mai',
-			6 : 'Juin',
-			7 : 'Juillet',
-			8 : 'Août',
-			9 : 'Septembre',
-			10 : 'Octobre',
-			11 : 'Novembre',
-			12 : 'Décembre'
-		}
-
-output_file = 'weeks_in_year.csv'
-
-monday_weekday_index = 0
-friday_weekday_index = 4
-
-help_msg = "dates.py -o <output_file> -y <year>"
-
 
 def main(argv):
+  global output_file, year_to_build
+  global now, date_format, date_format_name_output
+  global headers, months
+  global monday_weekday_index, friday_weekday_index
 
-	try:
-		opts, args = getopt.getopt(argv, "ho:s:y:f:", ["output_file=", "year="])
+  output_file = 'weeks_in_year.csv'
+  now = datetime.now()
+  
+  year_to_build = now.year
+  
+  date_format = '%d/%m/%Y'
+  date_format_name_output = '%Y-%m-%d'
+  
+  
+  
+  help_msg = "dates.py -o <output_file> -y <year>"
+	
+  try:
+		opts, args = getopt.getopt(argv, "ho:f:", ["output_file=", "year="])
+
 	except getopt.GetoptError:
 		print(help_msg)
 		sys.exit(2)
@@ -52,12 +38,32 @@ def main(argv):
 			print(help_msg)
 			sys.exit(2)
 		elif opt in ("-o", "--output_file"):
-			global output_file 
 			output_file = arg
 		elif opt in ("-y", "--year"):
-			global year_to_build 
 			year_to_build = arg
 
+      
+  headers =['year', 'month', 'week_nbr', 'start_date', 'end_date', 'name']
+
+  months = {
+        1 : 'Janvier',
+        2 : 'Février',
+        3 : 'Mars',
+        4 : 'Avril',
+        5 : 'Mai',
+        6 : 'Juin',
+        7 : 'Juillet',
+        8 : 'Août',
+        9 : 'Septembre',
+        10 : 'Octobre',
+        11 : 'Novembre',
+        12 : 'Décembre'
+      }
+
+  
+  monday_weekday_index = 0
+  friday_weekday_index = 4
+      
 	get_all_weeks_in_year(year_to_build, output_file)
 
 
